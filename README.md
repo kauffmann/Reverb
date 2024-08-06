@@ -1,24 +1,14 @@
-Audio Plugin Template
+CMake JUCE Audio Plugin Template
 
 
-Want to create an audio plugin (e.g., a VST3 plugin) with C++ but don't know how to go about?
+Creates an audio plugin (e.g., a VST3 plugin) with JUCE, C++ using CMake. 
 
 
-* clear repo structure
-* C++ 23 standard
 * effortless handling of third-party dependencies with the CPM package manager; use the C++ libraries you want together with JUCE
-* highest warning level and "treat warnings as errors"
 * ready-to-go unit test project with GoogleTest
-
-Additionally
-
-* continuous integration made easy with Github actions: build and run tests on the main branch and on every pull request
-* automatic clang-format on C++ files run on every commit; don't worry about code formatting anymore!
 
 
 ## Usage
-
-This is a template repository which means you can right click "Use this template" on GitHub and create your own repo out of it.
 
 After cloning it locally, you can proceed with the usual CMake workflow.
 
@@ -31,10 +21,10 @@ $ cmake --build build
 
 The first run will take the most time because the dependencies (CPM, JUCE, and googletest) need to be downloaded.
 
-Alternatively, you can use bundled CMake presets:
+You can use bundled CMake presets:
 
 ```bash
-$ cmake --preset default # uses the Ninja build system
+$ cmake --preset default       # uses Visual Studio 17 2022, but its better to use the Ninja build system for build speed. 
 $ cmake --build build
 $ ctest --preset default
 ```
@@ -50,5 +40,5 @@ pre-commit install
 (for this you may need to install `pre-commit` with `pip`: `pip install pre-commit`).
 
 
-Thanks to Jan Wilczek from https://thewolfsound.com/ for getting me started with CMake. Also thanks to Sudara at https://melatonin.dev/blog/how-to-use-cmake-with-juce/ 
-Other learning resouces are: juce cmake doc https://github.com/juce-framework/JUCE/blob/master/docs/CMake%20API.md  and of course CMake documentation at cmake.org.
+Thanks to Jan Wilczek from https://thewolfsound.com/ (video tutorial) for getting me started with CMake. Also thanks to Sudara at https://melatonin.dev/blog/how-to-use-cmake-with-juce/ 
+Other learning resources are: juce cmake doc https://github.com/juce-framework/JUCE/blob/master/docs/CMake%20API.md  and of course CMake documentation at cmake.org.
