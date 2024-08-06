@@ -1,16 +1,15 @@
  cmake_minimum_required(VERSION 3.22)
 
-# #Version is needed by JUCE.
+
  project(Graphic-Assets)
 
-# # Adding a directory with the library/application name as a subfolder of the
-# # include folder is a good practice. It helps avoid name clashes later on.
+
 set(Graphic_Lib "${CMAKE_CURRENT_SOURCE_DIR}/Graphic-Assets")
 
 
 
 
-# # Adding binary data from Graphic Assets directory . CONFIGURE_DEPEND , This will tell CMake to check the glob and rebuild if necessary.Glob == dir*
+# Adding binary data from Graphic Assets directory . CONFIGURE_DEPEND , This will tell CMake to check the glob and rebuild if necessary.Glob == dir*
  file(GLOB_RECURSE ASSETS_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.png" "${CMAKE_CURRENT_SOURCE_DIR}/*.ttf")
 
 # # Print the list of files to verify paths

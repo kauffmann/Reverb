@@ -4,7 +4,7 @@
 # $ cmake --version
 cmake_minimum_required(VERSION 3.22)
 
-# Sets a few variables, like PROJECT_NAME
+# Sets a few variables, like PROJECT_NAME.
 project(MyAudioPluginTemplate)
 
 # Always use the newest C++ standard on green-field projects if possible.

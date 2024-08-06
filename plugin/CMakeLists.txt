@@ -3,8 +3,7 @@ cmake_minimum_required(VERSION 3.22)
 # Version is needed by JUCE.
 project(AudioPlugin VERSION 0.1.0)
 
-# Adding a directory with the library/application name as a subfolder of the
-# include folder is a good practice. It helps avoid name clashes later on.
+  
 set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Source")
 
 
@@ -14,6 +13,8 @@ set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Source")
 
 
 # Adds a plugin target (that's basically what the Projucer does). This way we don't add_executable, juce helpers here takes care of that behind the scene.
+# JUCE default is that target/library code is DDL. So any source file I add to target is DDL (Dynamic linked library). It is possible to add static libraries that this target will link to.
+# But for plugins/DAW project standard is DDL for plugin to work.
 juce_add_plugin(${PROJECT_NAME}
     COMPANY_NAME "MyCompany" # change this 
     BUNDLE_ID com.BeGoodAudio.audioplugin # change this
@@ -35,10 +36,11 @@ juce_generate_juce_header(${PROJECT_NAME})
 
 # If you are like me, you'll use globs for your sanity.
 # Just ensure you employ CONFIGURE_DEPENDS so the build system picks up changes
-# If you want to appease the CMake gods and avoid globs, manually add files like so:
-# set(SourceFiles Source/PluginEditor.h Source/PluginProcessor.h Source/PluginEditor.cpp Source/PluginProcessor.cpp)
-#file(GLOB_RECURSE SourceFiles CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
 
+#file(GLOB_RECURSE SourceFiles CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
+#target_sources(${PROJECT_NAME} PRIVATE SourceFiles )
+
+# If you want to appease the CMake gods and avoid globs, manually add files like so:
 target_sources(${PROJECT_NAME} 
     PRIVATE 
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/PluginEditor.cpp"
@@ -56,15 +58,6 @@ target_include_directories(${PROJECT_NAME}
 
 )
 
-# Sets the Graphic assets files of the plugin project.
-#target_sources(${PROJECT_NAME}
- #   PRIVATE
-  #  ${CMAKE_CURRENT_SOURCE_DIR}/../Graphic-Assets
-
-#)
-
-
-
 
 # Link against AudioPluginData in Graphic assets
 target_link_libraries(${PROJECT_NAME} PUBLIC
@@ -75,8 +68,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 
 
 
-# Links to all necessary dependencies. The present ones are recommended by JUCE.
-# If you use one of the additional modules, like the DSP module, you need to specify it here.
+# Links to all necessary dependencies. 
 # Compiler use this when link in build process. 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
