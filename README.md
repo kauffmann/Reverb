@@ -50,4 +50,5 @@ pre-commit install
 (for this you may need to install `pre-commit` with `pip`: `pip install pre-commit`).
 
 
-
+Thanks to Jan Wilczek from https://thewolfsound.com/ for getting me started with CMake. Also thanks to Sudara at https://melatonin.dev/blog/how-to-use-cmake-with-juce/ 
+Other learning resouces are: juce cmake doc https://github.com/juce-framework/JUCE/blob/master/docs/CMake%20API.md  and of course CMake documentation at cmake.org.
