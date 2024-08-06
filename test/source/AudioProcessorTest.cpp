@@ -5,16 +5,18 @@
 
 using namespace juce;
 
+
 	TEST(PluginTestSuite, PluginProcessorTest)
 	{	
 
 		AudioPluginAudioProcessor processor;
 
-		std::string expected = "MyProduct"; // To pass, change foo to time.
-		String actual = processor.getName(); // processor.getName();
-		EXPECT_EQ(expected, actual); // should  fail
+		std::string expected = "MyProduct"; 
+		String actual = processor.getName(); // return juce string 
+		EXPECT_EQ(expected, actual);
 
-
+		EXPECT_EQ(true, processor.acceptsMidi());
+		
 		//ASSERT_FALSE(true);
 	}
 
