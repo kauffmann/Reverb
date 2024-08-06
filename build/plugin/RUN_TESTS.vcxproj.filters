@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\build\CMakeFiles\1145a3056daf5139f16e3ccc6d4ac495\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{93169A80-8337-3BFC-AAD9-31623304589C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TREE">
+      <UniqueIdentifier>{5552AE81-BF50-35B7-B4A4-A97764056F9A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

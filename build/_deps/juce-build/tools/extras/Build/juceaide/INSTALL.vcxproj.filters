@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\build\_deps\juce-build\tools\CMakeFiles\f626703e6626436d3079915db7bf2a2d\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{DDCDC905-14EC-3752-9285-57B62457C2A4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

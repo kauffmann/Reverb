@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\extras\Build\juceaide\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\extras\Build\juce_build_tools\juce_build_tools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\modules\juce_gui_basics\juce_gui_basics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\modules\juce_graphics\juce_graphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\modules\juce_graphics\juce_graphics_Harfbuzz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\modules\juce_events\juce_events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\modules\juce_core\juce_core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\modules\juce_core\juce_core_CompilationTime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\modules\juce_data_structures\juce_data_structures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\juce\extras\Build\juceaide\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{17896D0A-5312-391E-9380-1E8C9C399F86}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

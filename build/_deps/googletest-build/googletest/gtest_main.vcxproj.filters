@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\googletest\googletest\src\gtest_main.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\kauff\Documents\Audio Programming\Cmake JUCE Plugin Template\libs\googletest\googletest\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A1E93E73-AFDB-34BB-9BBE-ACF4F628D777}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
