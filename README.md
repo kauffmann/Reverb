@@ -5,7 +5,9 @@ Creates an audio plugin (e.g., a VST3 plugin) with JUCE, C++ using CMake.
 
 
 * Handling of third-party dependencies with the CPM package manager, downloading JUCE and GoogleTest
-* Adds unit test project with GoogleTest
+* Add unit test project with GoogleTest
+* Add assets to project (replace current content with your own)
+* Add include/source files to project (replace current content with your own)
 
 
 ## Usage
