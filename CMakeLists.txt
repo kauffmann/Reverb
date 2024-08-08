@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.22)
 project(MyAudioPluginTemplate)
 
 # Always use the newest C++ standard on green-field projects if possible.
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 if (APPLE)
     # On Mac, we need to wait for a new JUCE version that fixes the compilation issue
     set(CMAKE_CXX_STANDARD 20)
