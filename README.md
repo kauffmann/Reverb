@@ -23,7 +23,7 @@ $ cmake --build build
 
 The first run will take the most time because the dependencies (CPM, JUCE, and googletest) need to be downloaded.
 
-On Mac/Xcode you must first config/build from terminal, creating a .xcodeproj file you can open in xcode.
+On Mac/Xcode you must first run config from terminal, creating a .xcodeproj file you can open in xcode(cmake -S . -B build -G Xcode).
 In visual studio and visual studio code you can do this within editor IDE, using build in terminal.
 
 
