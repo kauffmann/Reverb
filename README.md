@@ -1,7 +1,7 @@
 
 ## Feedback Delay Network Reverb
 
-based on Geraint Luft's "Let's write a reverb," talk. This is my own custom implementation of a reverb using his DSP library.
+Based on Geraint Luft's "Let's write a reverb," talk. This is my own custom implementation of a reverb using his DSP library.
 I've also added early refelctions and pre-delay. TODO: I will also add filter options on input and output side.  
 	 
 Dependency: it uses Geraint Luft's DSP library https://github.com/Signalsmith-Audio/dsp
