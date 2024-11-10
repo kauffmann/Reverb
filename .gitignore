@@ -13,6 +13,7 @@ release-build/
 out/
 vs-build/
 
+
 # User-specific files
 *.rsuser
 *.suo
@@ -371,3 +372,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+
+
+
+
