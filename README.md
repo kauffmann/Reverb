@@ -6,6 +6,7 @@ I've also added early refelctions and pre-delay. TODO: I will also add filter op
 	 
 Dependency: it uses Geraint Luft's DSP library https://github.com/Signalsmith-Audio/dsp
 This is included in project as my custom library, as I had to change the file windows.h to custom-windows.h to avoid conflict.
+Check his license in Geraint-Luff-DSP folder. 
 
 It use JUCE https://juce.com/ Please check license if you are using this. 
 
