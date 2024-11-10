@@ -2,8 +2,7 @@
 
 #include <JuceHeader.h>
 #include "FDN_Reverb.h"
-#include "../dsp/mix.h"
-
+#include "../mix.h"
 
 //#include <juce_audio_processors/juce_audio_processors.h>
 

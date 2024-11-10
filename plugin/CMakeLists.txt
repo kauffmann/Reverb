@@ -50,7 +50,7 @@ target_sources(${PROJECT_NAME}
     "${INCLUDE_DIR}/PluginEditor.h"
     "${INCLUDE_DIR}/PluginProcessor.h"
     "Source/FDN_Reverb.h"
-    "${INCLUDE_DIR}/mix-matrix.h"
+    
    )
 
  # Sets the include directories of the plugin project(used by preprocessor to put headers .h in source files).
@@ -58,7 +58,7 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
     "${INCLUDE_DIR}"
     "${JUCE_SOURCE_DIR}/modules"
-    "${LIB_DIR}/dsp"
+    "${LIB_DSP_DIR}/Geraint-Luff-DSP"
      
 
 )

@@ -21,6 +21,8 @@ endif()
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 
+set(LIB_DSP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Geraint-Luff-DSP)
+
 
 # Downloads CPM if not already downloaded. CPM is an easy-to-use package manager nicely integrated with CMake.
 include(cmake/cpm.cmake)

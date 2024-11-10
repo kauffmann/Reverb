@@ -30,11 +30,9 @@
 
 #pragma once
 
-#include "../dsp/delay.h"
-#include "../dsp/mix.h"
+#include "../delay.h"
+#include "../mix.h"
 
-
-//#include "mix-matrix.h"
 
 #include <cstdlib>
 
