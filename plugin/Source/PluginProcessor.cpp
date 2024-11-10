@@ -10,10 +10,26 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
 #endif
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
-      ) {
+      ), apvts(*this, nullptr, "Parameters", createParameterLayout()) {
+    
+    // Register the processor as a listener to the parameters
+    apvts.addParameterListener("SIZE", this);
+    apvts.addParameterListener("DECAY", this);
+    apvts.addParameterListener("DRY", this);
+    apvts.addParameterListener("DIFFUSSER", this);
+    apvts.addParameterListener("WET_REFLECTIONS", this);
+    apvts.addParameterListener("PREDELAY", this);
 }
 
-AudioPluginAudioProcessor::~AudioPluginAudioProcessor() {}
+AudioPluginAudioProcessor::~AudioPluginAudioProcessor() 
+{
+    apvts.removeParameterListener("SIZE", this);
+    apvts.removeParameterListener("DECAY", this);
+    apvts.removeParameterListener("DRY", this);
+    apvts.removeParameterListener("DIFFUSSER", this);
+    apvts.removeParameterListener("WET_REFLECTIONS", this);
+    apvts.removeParameterListener("PREDELAY", this);
+}
 
 const juce::String AudioPluginAudioProcessor::getName() const {
   return JucePlugin_Name;
@@ -76,6 +92,10 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
   // Use this method as the place to do any pre-playback
   // initialisation that you need..
   juce::ignoreUnused(sampleRate, samplesPerBlock);
+
+  reverb.configure(sampleRate);
+
+  
 }
 
 void AudioPluginAudioProcessor::releaseResources() {
@@ -107,34 +127,17 @@ bool AudioPluginAudioProcessor::isBusesLayoutSupported(
 #endif
 }
 
-void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
-                                             juce::MidiBuffer& midiMessages) {
-  juce::ignoreUnused(midiMessages);
+void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
+{
+    juce::ignoreUnused(midiMessages);
 
-  juce::ScopedNoDenormals noDenormals;
-  auto totalNumInputChannels = getTotalNumInputChannels();
-  auto totalNumOutputChannels = getTotalNumOutputChannels();
+    juce::ScopedNoDenormals noDenormals;
 
-  // In case we have more outputs than inputs, this code clears any output
-  // channels that didn't contain input data, (because these aren't
-  // guaranteed to be empty - they may contain garbage).
-  // This is here to avoid people getting screaming feedback
-  // when they first compile a plugin, but obviously you don't need to keep
-  // this code if your algorithm always overwrites all the output channels.
-  for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-    buffer.clear(i, 0, buffer.getNumSamples());
+    auto* channelDataL = buffer.getWritePointer(0);
+    auto* channelDataR = buffer.getWritePointer(1);
 
-  // This is the place where you'd normally do the guts of your plugin's
-  // audio processing...
-  // Make sure to reset the state if your inner loop is processing
-  // the samples and the outer loop is handling the channels.
-  // Alternatively, you can process the samples with the channels
-  // interleaved by keeping the same state.
-  for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-    auto* channelData = buffer.getWritePointer(channel);
-    juce::ignoreUnused(channelData);
-    // ..do something to the data...
-  }
+    reverb.process(channelDataL, channelDataR, buffer.getNumSamples());
+      
 }
 
 bool AudioPluginAudioProcessor::hasEditor() const {
@@ -142,23 +145,46 @@ bool AudioPluginAudioProcessor::hasEditor() const {
 }
 
 juce::AudioProcessorEditor* AudioPluginAudioProcessor::createEditor() {
-  return new AudioPluginAudioProcessorEditor(*this);
+  return new juce::GenericAudioProcessorEditor(*this);
 }
 
 void AudioPluginAudioProcessor::getStateInformation(
     juce::MemoryBlock& destData) {
-  // You should use this method to store your parameters in the memory block.
-  // You could do that either as raw data, or use the XML or ValueTree classes
-  // as intermediaries to make it easy to save and load complex data.
-  juce::ignoreUnused(destData);
+  
+    
+    juce::ValueTree params("Params");
+
+    for (auto& param : getParameters())
+    {
+        juce::ValueTree paramTree(getParamID(param));
+        paramTree.setProperty("Value", param->getValue(), nullptr);
+        params.appendChild(paramTree, nullptr);
+    }
+
+
+    copyXmlToBinary(*params.createXml(), destData);
+
+
 }
 
-void AudioPluginAudioProcessor::setStateInformation(const void* data,
-                                                    int sizeInBytes) {
-  // You should use this method to restore your parameters from this memory
-  // block, whose contents will have been created by the getStateInformation()
-  // call.
-  juce::ignoreUnused(data, sizeInBytes);
+void AudioPluginAudioProcessor::setStateInformation(const void* data, int sizeInBytes) 
+{
+
+
+    auto xml = getXmlFromBinary(data, sizeInBytes);
+
+    if (xml != nullptr)
+    {
+        auto preset = juce::ValueTree::fromXml(*xml);
+
+        for (auto& param : getParameters())
+        {
+            auto paramTree = preset.getChildWithName(getParamID(param));
+
+            if (paramTree.isValid())
+                param->setValueNotifyingHost(paramTree["Value"]);
+        }
+    }
 }
 
 
@@ -166,4 +192,103 @@ void AudioPluginAudioProcessor::setStateInformation(const void* data,
 // This function definition must be in the global namespace.
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
   return new AudioPluginAudioProcessor();
+}
+
+
+
+
+juce::AudioProcessorValueTreeState::ParameterLayout AudioPluginAudioProcessor::createParameterLayout()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SIZE",
+        "Room Size",
+        juce::NormalisableRange<float>(10.0f, 200.0f, 10.0f),
+        50.0f)); // default:
+
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY",
+        "Decay",
+        juce::NormalisableRange<float>(0.2f, 40.0f, 0.1f),
+        1.2f)); 
+
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DRY",
+        "Dry",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f),
+        0.2f)); // default
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DIFFUSSER",
+        "Diffusser Gain",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f),
+        0.2f)); // default
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("WET_REFLECTIONS",
+        "Early Reflection Gain",
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f), 0.2f, String(), AudioProcessorParameter::genericParameter,
+        [](float value, int) -> String
+        {
+
+
+            String valueToText =
+                String(value * 100, 1) + " %";
+
+
+            return valueToText;
+        })); // default
+
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("PREDELAY",
+        "Predelay",
+        juce::NormalisableRange<float>(0.0f, 500.0f, 1.0f), 20.0f, String(), AudioProcessorParameter::genericParameter,
+        [](float value, int) -> String
+        {
+            
+
+            String valueToText =
+                String(value, 1) + " ms";
+
+
+            return valueToText;
+        })); // default
+
+
+
+    
+
+    return { params.begin(), params.end() };
+}
+
+void AudioPluginAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue) 
+{
+    if (parameterID == "SIZE")
+    {
+        reverb.setRoomSize(newValue);
+
+    }
+    else if (parameterID == "DECAY")
+    {
+        reverb.setDecay(newValue);
+       
+    }
+
+    else if (parameterID == "DRY")
+    {
+       reverb.setDry(newValue);
+    }
+
+    else if (parameterID == "DIFFUSSER") 
+    {
+        reverb.setDiffusionGain(newValue);
+    }
+
+    else if (parameterID == "WET_REFLECTIONS") 
+    {
+        reverb.setEarlyReflections(newValue);
+    }
+
+    else if (parameterID == "PREDELAY")
+    {
+        reverb.setPreDelay(newValue);
+    }
 }

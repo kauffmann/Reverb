@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 
+
+
+
 # Version is needed by JUCE.
 project(AudioPlugin VERSION 0.1.0)
 
@@ -16,17 +19,16 @@ set(INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Source")
 # JUCE default is that target/library code is DDL. So any source file I add to target is DDL (Dynamic linked library). It is possible to add static libraries that this target will link to.
 # But for plugins/DAW project standard is DDL for plugin to work.
 juce_add_plugin(${PROJECT_NAME}
-    COMPANY_NAME "MyCompany" # change this 
-    BUNDLE_ID com.BeGoodAudio.audioplugin # change this
+    COMPANY_NAME "NewAudio" # change this 
+    BUNDLE_ID com.NewAudio.audioplugin # change this
     IS_SYNTH FALSE # may change this
-    NEEDS_MIDI_INPUT TRUE # may change this
+    NEEDS_MIDI_INPUT FALSE # may change this
     NEEDS_MIDI_OUTPUT FALSE # may change this
-    PLUGIN_MANUFACTURER_CODE Mlpm # change this
-    PLUGIN_CODE Expl # change this
+    PLUGIN_MANUFACTURER_CODE Mljn # change this
+    PLUGIN_CODE Rxjl # change this
     FORMATS VST3 # may change this
-    PRODUCT_NAME "MyProduct" # change this
+    PRODUCT_NAME "Reverb" # change this
 )
-
 
 
 juce_generate_juce_header(${PROJECT_NAME})
@@ -37,8 +39,8 @@ juce_generate_juce_header(${PROJECT_NAME})
 # If you are like me, you'll use globs for your sanity.
 # Just ensure you employ CONFIGURE_DEPENDS so the build system picks up changes
 
-#file(GLOB_RECURSE SourceFiles CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
-#target_sources(${PROJECT_NAME} PRIVATE SourceFiles )
+#file(GLOB_RECURSE SourceFiles CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
+#target_sources(${PROJECT_NAME} PRIVATE ${SourceFiles} )
 
 # If you want to appease the CMake gods and avoid globs, manually add files like so:
 target_sources(${PROJECT_NAME} 
@@ -47,13 +49,16 @@ target_sources(${PROJECT_NAME}
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/PluginProcessor.cpp"
     "${INCLUDE_DIR}/PluginEditor.h"
     "${INCLUDE_DIR}/PluginProcessor.h"
-)
+    "Source/FDN_Reverb.h"
+    "${INCLUDE_DIR}/mix-matrix.h"
+   )
 
  # Sets the include directories of the plugin project(used by preprocessor to put headers .h in source files).
 target_include_directories(${PROJECT_NAME}
     PUBLIC
     "${INCLUDE_DIR}"
     "${JUCE_SOURCE_DIR}/modules"
+    "${LIB_DIR}/dsp"
      
 
 )
@@ -62,6 +67,7 @@ target_include_directories(${PROJECT_NAME}
 # Link against AudioPluginData in Graphic assets
 target_link_libraries(${PROJECT_NAME} PUBLIC
     AudioPluginData
+    
     # Add other libraries as needed
 )
  
@@ -73,7 +79,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     juce_analytics
-    juce_animation  #JUCE 8 stuff
+    #juce_animation  #JUCE 8 stuff
     juce_audio_basics
     juce_audio_devices
     juce_audio_formats
@@ -134,9 +140,3 @@ endif()
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 
-# Set the executable for debugging. Set in ALL_BUILD properties debug target instead.      
-#set_target_properties(${PROJECT_NAME} PROPERTIES
- #   VS_DEBUGGER_COMMAND "C:/ProgramData/Ableton/Live 10 Suite/Program/Ableton Live 10 Suite.exe"
-    #VS_DEBUGGER_COMMAND_ARGUMENTS "\"C:/Path/To/Your/ProjectFile.als\""
-  #  VS_DEBUGGER_WORKING_DIRECTORY "C:/ProgramData/Ableton/Live 10 Suite/Program"
-#)

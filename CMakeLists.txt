@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 # Sets a few variables, like PROJECT_NAME.
-project(MyAudioPluginTemplate)
+project(MyAudioPluginReverb)
 
 # Always use the newest C++ standard on green-field projects if possible.
 set(CMAKE_CXX_STANDARD 23)
@@ -29,25 +29,34 @@ include(cmake/cpm.cmake)
 CPMAddPackage(
     NAME JUCE
     GITHUB_REPOSITORY juce-framework/JUCE
-    GIT_TAG 8.0.0
-    VERSION 8.0.0
+    GIT_TAG 7.0.12
+    VERSION 7.0.12
     SOURCE_DIR ${LIB_DIR}/juce
 ) 
 
 
 # Adds googletest.
-CPMAddPackage(
-    NAME GOOGLETEST
-    GITHUB_REPOSITORY google/googletest
-    GIT_TAG v1.14.0
-    VERSION 1.14.0
-    SOURCE_DIR ${LIB_DIR}/googletest
-    OPTIONS
-        "INSTALL_GTEST OFF"
-        "gtest_force_shared_crt ON"
-)
+#CPMAddPackage(
+ #   NAME GOOGLETEST
+ #   GITHUB_REPOSITORY google/googletest
+ #   GIT_TAG v1.14.0
+ #   VERSION 1.14.0
+ #  SOURCE_DIR ${LIB_DIR}/googletest
+ #   OPTIONS
+ #      "INSTALL_GTEST OFF"
+ #       "gtest_force_shared_crt ON"
+#)
 
-
+# Adds dsp repository.
+#CPMAddPackage(
+#    NAME DSP
+#    GITHUB_REPOSITORY Signalsmith-Audio/dsp
+#    GIT_TAG main  # Specify the desired tag or branch
+#    VERSION 1.0.0  # Specify a version if needed
+#    SOURCE_DIR ${LIB_DIR}/dsp
+#    OPTIONS
+ #       "SOME_OPTION OFF"  # Replace with any specific options if needed
+#)
 
 
 # This command allows running tests from the "build" folder (the one where CMake generates the project to).
@@ -63,7 +72,7 @@ add_subdirectory(Graphic-Assets)
 add_subdirectory(plugin)
 
 # Adds all the targets configured in the "test" folder.
-add_subdirectory(test)
+#add_subdirectory(test)
 
 
 
