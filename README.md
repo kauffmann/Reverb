@@ -1,5 +1,7 @@
 
-**A feedback delay network reverb** based on Geraint Luft's "Let's write a reverb," talk. This is my own custom implementation of a reverb using his DSP library.
+## Feedback Delay Network Reverb
+
+based on Geraint Luft's "Let's write a reverb," talk. This is my own custom implementation of a reverb using his DSP library.
 I've also added early refelctions and pre-delay. TODO: I will also add filter options on input and output side.  
 	 
 Dependency: it uses Geraint Luft's DSP library https://github.com/Signalsmith-Audio/dsp
@@ -10,7 +12,7 @@ It use JUCE https://juce.com/ Please check license if you are using this.
 Talk: https://www.youtube.com/watch?v=QWnD30xHjW4
 Geraint Luft:  https://signalsmith-audio.co.uk/
 
-**Creates an audio plugin (e.g., a VST3 plugin) with JUCE, C++ using CMake. **
+## Creates an audio plugin (e.g., a VST3 plugin) with JUCE, C++ using CMake.
 
 
 
