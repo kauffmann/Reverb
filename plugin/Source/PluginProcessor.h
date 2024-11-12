@@ -2,7 +2,7 @@
 
 #include <JuceHeader.h>
 #include "FDN_Reverb.h"
-#include "../mix.h"
+#include "mix.h"
 
 //#include <juce_audio_processors/juce_audio_processors.h>
 
@@ -49,8 +49,8 @@ public:
 	
 
 private:
-	//  if I change channels then out array in processor must be set to match ch
- 		                    	// was <8,4>		//	roomSize, decay, dry, wet      small roomSize then ot big decay
+	
+ 		 //  <channels,diffusion steps>		    ( roomSize, decay, dry, wet) 
 	BasicReverb<8, 4> reverb = BasicReverb<8, 4>(50.0, 1.2, 0.5f, 0.5f);
 
 	// Parameters

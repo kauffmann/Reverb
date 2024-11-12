@@ -47,10 +47,20 @@ target_sources(${PROJECT_NAME}
     PRIVATE 
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/PluginEditor.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/PluginProcessor.cpp"
-    "${INCLUDE_DIR}/PluginEditor.h"
-    "${INCLUDE_DIR}/PluginProcessor.h"
-    "Source/FDN_Reverb.h"
-    
+    #"${INCLUDE_DIR}/PluginEditor.h"
+    #"${INCLUDE_DIR}/PluginProcessor.h"
+    #"${CMAKE_CURRENT_SOURCE_DIR}/Source/FDN_Reverb.h"
+    #"${LIB_DSP}/common.h"
+    #"${LIB_DSP}/curves.h"
+    #"${LIB_DSP}/custom-windows.h"
+    #"${LIB_DSP}/delay.h"
+    #"${LIB_DSP}/envelopes.h"
+    #"${LIB_DSP}/fft.h"
+    #"${LIB_DSP}/filters.h"
+    #"${LIB_DSP}/mix.h"
+    #"${LIB_DSP}/perf.h"
+    #"${LIB_DSP}/rates.h"
+    #"${LIB_DSP}/spectral.h"
    )
 
  # Sets the include directories of the plugin project(used by preprocessor to put headers .h in source files).
@@ -58,7 +68,7 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC
     "${INCLUDE_DIR}"
     "${JUCE_SOURCE_DIR}/modules"
-    "${LIB_DSP_DIR}/Geraint-Luff-DSP"
+    "${LIB_DSP}"
      
 
 )

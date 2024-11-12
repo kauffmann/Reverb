@@ -226,17 +226,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout AudioPluginAudioProcessor::c
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("WET_REFLECTIONS",
         "Early Reflection Gain",
-        juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f), 0.2f, String(), AudioProcessorParameter::genericParameter,
-        [](float value, int) -> String
-        {
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f), 0.2f)); // default
 
-
-            String valueToText =
-                String(value * 100, 1) + " %";
-
-
-            return valueToText;
-        })); // default
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("PREDELAY",
         "Predelay",

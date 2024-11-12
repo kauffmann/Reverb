@@ -2,24 +2,24 @@
 /*
   ==============================================================================
 
-	This file contains a Delay 
+Feedback Delay Network Reverb
 
-	Created by Michael kauffmann
-	October 20, 2023
-
-
-	A feedback delay network reverb based on Geraint Luft's "Let's write a reverb," talk.
+Based on Geraint Luft's "Let's write a reverb," talk. This is my own custom implementation of a reverb using his DSP library.
+I've also added early refelctions and pre-delay. 
 	 
-	Dependency: it uses Geraint Luft's DSP library https://github.com/Signalsmith-Audio/dsp
+Dependency: it uses Geraint Luft's DSP library https://github.com/Signalsmith-Audio/dsp
+This is included in project as my custom library, as I had to change the file windows.h to custom-windows.h to avoid conflict.
+Check his license in Geraint-Luff-DSP folder. 
 
-	Talk: https://www.youtube.com/watch?v=QWnD30xHjW4
-	Geraint Luft:  https://signalsmith-audio.co.uk/
+
+Talk: https://www.youtube.com/watch?v=QWnD30xHjW4
+Geraint Luft:  https://signalsmith-audio.co.uk/
+
+	
+	
 
 
-	param channel explaination of rename to size somthing
-	what can be optimized
-	add early reflection, HPF/LPF  on input and output side
-	Can it sound better
+	
 
 
   ==============================================================================
@@ -30,8 +30,8 @@
 
 #pragma once
 
-#include "../delay.h"
-#include "../mix.h"
+#include "delay.h"
+#include "mix.h"
 
 
 #include <cstdlib>
@@ -44,24 +44,7 @@
 using Delay = signalsmith::delay::Delay<double, signalsmith::delay::InterpolatorNearest>;
 
 
-//struct randomInRange {
-//
-//	template <typename T>
-//	static T generateRandomReal(T min, T max) {
-//		
-//		static_assert(std::is_floating_point<T>::value, "Template parameter must be a floating-point type.");
-//		// Initialize the random number generator
-//		std::mt19937 rng(std::random_device{}()); 
-//
-//		// Create the distribution with the given range
-//		std::uniform_real_distribution<T> dist(min, max);
-//
-//		// Generate and return a random number of type T
-//		return dist(rng);
-//	}
-//
-//
-//};std::bernoulli_distribution bDist(0.5);
+
 
 struct randomInRange {
 	// Member-based RNG, seeded once and used for all random calls
@@ -84,23 +67,7 @@ struct randomInRange {
 };
 
 
-//struct vector_operations
-//{
-//	// Optimized copy function for trivially copyable types (int, float, double, etc.)
-//	template <typename Type>
-//	static void copy(Type* dest, const Type* src, const size_t num) 
-//	{
-//		static_assert(std::is_trivially_copyable<Type>::value, "Type must be trivially copyable (e.g., int, float, double).");
-//
-//		if (dest == nullptr || src == nullptr)
-//		{
-//			throw std::invalid_argument("Null pointer passed to copy function.");
-//		}
-//
-//		// Use memcpy for copying as Type is trivially copyable
-//		std::memcpy(dest, src, num * sizeof(Type));
-//	}
-//};
+
 
 
 
@@ -132,8 +99,8 @@ struct MultiChannelMixedFeedback {
 		
 		
 		// Mix using a Householder matrix
-		signalsmith::mix::Householder<double, channels>::inPlace(delayed.data());  //Householder<double, channels>::inPlace(mixed.data());
-		//signalsmith::mix::Hadamard<double, channels>::inPlace(delayed.data());
+		signalsmith::mix::Householder<double, channels>::inPlace(delayed.data());  
+		
 		
 		for (int c = 0; c < channels; ++c) {
 			double sum = input[c] + delayed[c]*decayGain;
@@ -328,18 +295,9 @@ struct BasicReverb {
 
 	signalsmith::mix::StereoMultiMixer<float, channels> mix;
 
-	BasicReverb(double roomSizeMs, double rt60, double dry=0, double diffuserGain=1) : diffuser(roomSizeMs), dry(dry), diffuserGain(diffuserGain)
+	BasicReverb(double roomSizeMs, double rt60, double dry=0, double diffuserGain=1) : diffuser(roomSizeMs), rt60(rt60), dry(dry), diffuserGain(diffuserGain)
 	{
-		feedback.delayMs = roomSizeMs;
-
-		// How long does our signal take to go around the feedback loop?
-		double typicalLoopMs = roomSizeMs * 1.5;
-		// How many times will it do that during our RT60 period?
-		double loopsPerRt60 = rt60 / (typicalLoopMs * 0.001);
-		// This tells us how many dB to reduce per loop
-		double dbPerCycle = -60 / loopsPerRt60;
-
-		feedback.decayGain = std::pow(10, dbPerCycle * 0.05);
+		updateDecayGain();
 	}
 	
 	void setDry(double dryValue)
@@ -397,6 +355,7 @@ struct BasicReverb {
 		double dbPerCycle = -60 / loopsPerRt60;
 
 		feedback.decayGain = std::pow(10, dbPerCycle * 0.05);
+
 	}
 
 
@@ -438,17 +397,18 @@ struct BasicReverb {
 
 			Array diffuse = diffuser.process(earlyReflection);     
 			Array longLasting = feedback.process(diffuse);
-			//Array output;
+			
 
 			// Apply scaling based on the number of channels
 			double scalingFactor = 1.0 / std::sqrt(channels); // Normalize for multi-channel
+			
 
 			for (int c = 0; c < channels; ++c) 
 			{													
 				out[c] = dry * out[c] * scalingFactor + diffuserGain * longLasting[c] * scalingFactor + earlyReflection[c] * earlyReflectionGain * scalingFactor; 
 			}
 
-			//vector_operations::copy<double>(out.data(), output.data(), channels);
+			
 
 			mix.multiToStereo(out, in);
 

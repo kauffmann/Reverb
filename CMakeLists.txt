@@ -20,8 +20,9 @@ endif()
 # either as an environment variable or pass it to the cmake script with -DCPM_SOURCE_CACHE=<path>.
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
+set(LIB_DSP ${CMAKE_CURRENT_SOURCE_DIR}/Geraint-Luff_DSP)
 
-set(LIB_DSP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Geraint-Luff-DSP)
+
 
 
 # Downloads CPM if not already downloaded. CPM is an easy-to-use package manager nicely integrated with CMake.
