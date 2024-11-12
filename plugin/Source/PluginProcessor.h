@@ -50,8 +50,8 @@ public:
 
 private:
 	
- 		 //  <channels,diffusion steps>		    ( roomSize, decay, dry, wet) 
-	BasicReverb<8, 4> reverb = BasicReverb<8, 4>(50.0, 1.2, 0.5f, 0.5f);
+ 		 //  <channels,diffusion steps>	
+	BasicReverb<8, 4> reverb = BasicReverb<8, 4>();
 
 	// Parameters
 	juce::AudioProcessorValueTreeState apvts;

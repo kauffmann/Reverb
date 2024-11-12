@@ -211,22 +211,22 @@ juce::AudioProcessorValueTreeState::ParameterLayout AudioPluginAudioProcessor::c
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY",
         "Decay",
         juce::NormalisableRange<float>(0.2f, 40.0f, 0.1f),
-        1.2f)); 
+        6.0f)); 
 
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DRY",
         "Dry",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f),
-        0.2f)); // default
+        0.4f)); // default
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DIFFUSSER",
         "Diffusser Gain",
         juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f),
-        0.2f)); // default
+        0.3f)); // default
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("WET_REFLECTIONS",
         "Early Reflection Gain",
-        juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f), 0.2f)); // default
+        juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f), 0.3f)); // default
 
 
     params.push_back(std::make_unique<juce::AudioParameterFloat>("PREDELAY",

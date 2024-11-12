@@ -168,8 +168,9 @@ struct DiffuserHalfLengths {
 	std::array<DiffusionStep<channels>, stepCount> steps;
 
 	
-	// Can have different times, try out. Can intantiate with default constructor instead.
-	DiffuserHalfLengths(double diffusionMs) {    
+	    
+	void setDelayMsRange(double diffusionMs) 
+	{
 		for (auto &step : steps) {
 			diffusionMs *= 0.5;
 			step.delayMsRange = diffusionMs;
@@ -281,22 +282,24 @@ struct BasicReverb {
 	EarlyReflections<channels> earlyReflections;
 	PreDelay<channels> preDelay;  // Multichannel pre-delay
 
-	double dry = 0.0;
-	double diffuserGain = 0.0;
+	double dry = 0.5;
+	double diffuserGain = 0.3;
 	double earlyReflectionGain = 0.0;
 	
 
-	double roomSizeMs = 0.0;
-	double rt60 = 0.0;
+	double roomSizeMs = 50.0;
+	double rt60 = 6.0;
 	double sampleRate = 44100.0;
 
-	// Add this member variable:
+	
 	const double scalingFactor = 1.0 / std::sqrt(channels);
 
 	signalsmith::mix::StereoMultiMixer<float, channels> mix;
 
-	BasicReverb(double roomSizeMs, double rt60, double dry=0, double diffuserGain=1) : diffuser(roomSizeMs), rt60(rt60), dry(dry), diffuserGain(diffuserGain)
+	BasicReverb() 
 	{
+		// try differenct values
+		diffuser.setDelayMsRange(50);
 		updateDecayGain();
 	}
 	
@@ -323,6 +326,9 @@ struct BasicReverb {
 	void setRoomSize(double sizeValue)
 	{
 		roomSizeMs = sizeValue;
+		//diffuser.setDelayMsRange(roomSizeMs);
+		//diffuser.configure(sampleRate);
+
 		updateDecayGain();
 
 		// Set early reflection delay ranges based on room size
@@ -354,7 +360,7 @@ struct BasicReverb {
 		// This tells us how many dB to reduce per loop
 		double dbPerCycle = -60 / loopsPerRt60;
 
-		feedback.decayGain = std::pow(10, dbPerCycle * 0.05);
+		feedback.decayGain = std::pow(10, dbPerCycle * 0.05);   
 
 	}
 
@@ -399,13 +405,14 @@ struct BasicReverb {
 			Array longLasting = feedback.process(diffuse);
 			
 
-			// Apply scaling based on the number of channels
-			double scalingFactor = 1.0 / std::sqrt(channels); // Normalize for multi-channel
+			
+		
 			
 
 			for (int c = 0; c < channels; ++c) 
 			{													
-				out[c] = dry * out[c] * scalingFactor + diffuserGain * longLasting[c] * scalingFactor + earlyReflection[c] * earlyReflectionGain * scalingFactor; 
+				//out[c] = dry * out[c] * scalingFactor + diffuserGain * longLasting[c] * scalingFactor + earlyReflection[c] * earlyReflectionGain * scalingFactor; 
+				out[c] = (dry * out[c] + diffuserGain * longLasting[c] + earlyReflection[c] * earlyReflectionGain) * scalingFactor;
 			}
 
 			
